@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Review from "./Review";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -22,13 +25,13 @@ const Reviews = () => {
         effect={"coverflow"}
         grabCursor={true}
         centeredSlides={true}
-        slidesPerView={"5"}
+        slidesPerView={"auto"}
         coverflowEffect={{
           rotate: 30,
-          stretch: "0%",
+          stretch: "50%",
           depth: 200,
           modifier: 1,
-          scale: 1,
+          scale: 0.75,
           slideShadows: true,
         }}
         autoplay={{

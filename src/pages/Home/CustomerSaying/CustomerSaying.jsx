@@ -1,5 +1,6 @@
 import React from 'react';
 import customerTop from "../../../assets/customer-top.png";
+import Reviews from '../Reviews/Reviews';
 
 const CustomerSaying = () => {
     return (
@@ -29,7 +30,7 @@ const CustomerSaying = () => {
             </div>
                     {/* Slider Review  */}
             <div> 
-                
+                <Reviews></Reviews>
             </div>
         </div>
     );

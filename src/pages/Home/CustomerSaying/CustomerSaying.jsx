@@ -28,10 +28,6 @@ const CustomerSaying = () => {
                 </p>
 
             </div>
-                    {/* Slider Review  */}
-            <div> 
-                <Reviews></Reviews>
-            </div>
         </div>
     );
 };

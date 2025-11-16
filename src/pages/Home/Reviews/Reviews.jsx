@@ -19,13 +19,13 @@ const Reviews = () => {
   }, []);
 
   return (
-    <div>
+    <div className="mt-24">
       <Swiper
         loop={true}
         effect={"coverflow"}
         grabCursor={true}
         centeredSlides={true}
-        slidesPerView={"auto"}
+        slidesPerView={3}
         coverflowEffect={{
           rotate: 30,
           stretch: "50%",

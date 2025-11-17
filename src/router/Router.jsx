@@ -7,6 +7,8 @@ import Error from "../pages/Error/Error";
 import AuthLayout from "../layout/AuthLayout";
 import LogIn from "../pages/Auth/LogIn/LogIn";
 import Register from "../pages/Auth/Register/Register";
+import PrivateRoute from "../context/PrivateRoute/PrivateRoute";
+import Rider from "../pages/BeARider/Rider";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: "/coverage",
         Component: Coverage,
+      },
+      {
+        path: "/rider",
+        element: <PrivateRoute><Rider></Rider></PrivateRoute>
       },
       {
         path: "/aboutUs",

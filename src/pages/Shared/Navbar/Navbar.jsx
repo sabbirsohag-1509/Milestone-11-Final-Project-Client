@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logOutInfo } = useAuth();
+  console.log(user);
 
   const logOutHandler = () => {
     Swal.fire({
@@ -142,7 +143,7 @@ const Navbar = () => {
               Login
             </Link>
             <Link
-              to=""
+              to="/rider"
               className="btn px-6 py-2 rounded-xl bg-[#CAEB66] text-black font-semibold shadow"
             >
               Be a Rider

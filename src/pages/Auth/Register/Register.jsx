@@ -3,56 +3,72 @@ import { useForm } from "react-hook-form";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import { updateProfile } from "firebase/auth";
+import axios from "axios";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { registerInfo, signInGoogle } = useAuth();
+  const { registerInfo, signInGoogle, updateUserProfileInfo } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const registerBtnHandler = (data) => {
-  registerInfo(data.email, data.password)
-    .then((res) => {
-      updateProfile(res.user, {
+  const registerBtnHandler = async (data) => {
+    // console.log("FILE:", data.photoURL);
+    // console.log("FIRST FILE:", data.photoURL && data.photoURL[0]);
+    try {
+       await registerInfo(data.email, data.password);
+      
+
+      const formData = new FormData();
+      formData.append("image", data.photoURL[0]);
+
+      const image_API_URL = `https://api.imgbb.com/1/upload?key=${
+        import.meta.env.VITE_image_host_key
+      }`;
+
+      const imgRes = await axios.post(image_API_URL, formData);
+      console.log("iamge res", imgRes);
+      const uploadedImageURL = imgRes.data.data.display_url;
+
+      updateUserProfileInfo({
         displayName: data.name,
-        photoURL: data.photoURL || "https://i.ibb.co.com/3FmN3qV/default-profile.png",
+        photoURL: uploadedImageURL,
       })
         .then(() => {
-          Swal.fire({
-            icon: "success",
-            title: "Registration Successful!",
-            text: "Welcome to zapShift!",
-            timer: 1500,
-            showConfirmButton: false,
-          });
-          console.log("User Updated:", res.user);
+          navigate(location.state || "/");
+          console.log("Profile updated!");
         })
         .catch((err) => {
-          Swal.fire({
-            icon: "error",
-            title: "Profile Update Failed!",
-            text: err.message,
-          });
+          console.error(err);
         });
-    })
-    .catch((error) => {
+
+      Swal.fire({
+        icon: "success",
+        title: "Registration Successful!",
+        text: "Welcome to zapShift!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Registration Failed!",
-        text: error.message,
+        text: error.message || "Something went wrong!",
       });
-    });
-};
+    }
+  };
 
+  // Google SIgnIn Handler
   const googleSignInHandler = () => {
     signInGoogle()
       .then((res) => {
+        navigate(location.state || "/");
         Swal.fire({
           icon: "success",
           title: "Google Sign-In Successful!",
@@ -79,8 +95,6 @@ const Register = () => {
 
         <form onSubmit={handleSubmit(registerBtnHandler)} className="space-y-4">
           <fieldset className="fieldset space-y-3">
-
-            {/* Name */}
             <div>
               <label className="label font-semibold">Your Name</label>
               <input
@@ -94,18 +108,16 @@ const Register = () => {
               )}
             </div>
 
-            {/* Photo URL */}
             <div>
               <label className="label font-semibold">Photo URL</label>
               <input
-                type="text"
-                {...register("photoURL")}
-                className="input input-bordered w-full"
+                type="file"
+                {...register("photoURL", { required: true })}
+                className=" file-input w-full"
                 placeholder="Photo URL"
               />
             </div>
 
-            {/* Email */}
             <div>
               <label className="label font-semibold">Email</label>
               <input
@@ -119,7 +131,6 @@ const Register = () => {
               )}
             </div>
 
-            {/* Password */}
             <div className="relative">
               <label className="label font-semibold">Password</label>
               <input
@@ -151,13 +162,10 @@ const Register = () => {
               </span>
             </div>
 
-            {/* Register Button */}
             <button className="btn bg-[#CAEB66] w-full mt-3">Register</button>
 
-            {/* Divider */}
             <div className="divider text-gray-400">OR</div>
 
-            {/* Google Sign In */}
             <button
               onClick={googleSignInHandler}
               type="button"
@@ -170,7 +178,7 @@ const Register = () => {
 
           <p className="text-sm">
             Already have an Account?{" "}
-            <Link to="/login" className="text-blue-500">
+            <Link to="/login" state={location.state} className="text-blue-500">
               login
             </Link>{" "}
             here.

@@ -3,12 +3,14 @@ import { useForm } from "react-hook-form";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
 const LogIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { signInInfo, signInGoogle } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,6 +20,7 @@ const LogIn = () => {
   const handleLoginBtn = (data) => {
     signInInfo(data.email, data.password)
       .then((res) => {
+        navigate(location.state || "/");
         Swal.fire({
           icon: "success",
           title: "Logged In Successfully!",
@@ -38,6 +41,7 @@ const LogIn = () => {
   const googleSignInHandler = () => {
     signInGoogle()
       .then((res) => {
+        navigate(location.state || "/");
         Swal.fire({
           icon: "success",
           title: "Google Login Successful!",
@@ -117,6 +121,7 @@ const LogIn = () => {
                 )}
               </span>
             </div>
+            <p className="text-blue-500 text-sm">Forgot Your Password? <Link to="" className="text-blue-900 underline">Click</Link> here.</p>
 
             {/* Log In Button */}
             <button className="btn bg-[#CAEB66] w-full mt-3">Log In</button>
@@ -136,7 +141,7 @@ const LogIn = () => {
           </fieldset>
           <p className="text-sm">
             New to zapShift?{" "}
-            <Link to="/register" className="text-blue-500">
+            <Link to="/register" state={location.state} className="text-blue-500">
               Register
             </Link>{" "}
             here.

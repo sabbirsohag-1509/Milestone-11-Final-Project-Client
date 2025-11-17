@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
+import useAuth from "../../../hooks/useAuth";
+import { Link } from "react-router";
+import Swal from "sweetalert2";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { registerInfo, signInGoogle } = useAuth();
   const {
     register,
     handleSubmit,
@@ -12,7 +17,57 @@ const Register = () => {
   } = useForm();
 
   const registerBtnHandler = (data) => {
-    console.log("after register", data);
+  registerInfo(data.email, data.password)
+    .then((res) => {
+      updateProfile(res.user, {
+        displayName: data.name,
+        photoURL: data.photoURL || "https://i.ibb.co.com/3FmN3qV/default-profile.png",
+      })
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Registration Successful!",
+            text: "Welcome to zapShift!",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+          console.log("User Updated:", res.user);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Profile Update Failed!",
+            text: err.message,
+          });
+        });
+    })
+    .catch((error) => {
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed!",
+        text: error.message,
+      });
+    });
+};
+
+  const googleSignInHandler = () => {
+    signInGoogle()
+      .then((res) => {
+        Swal.fire({
+          icon: "success",
+          title: "Google Sign-In Successful!",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+        console.log(res);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Google Sign-In Failed!",
+          text: error.message,
+        });
+      });
   };
 
   return (
@@ -24,6 +79,7 @@ const Register = () => {
 
         <form onSubmit={handleSubmit(registerBtnHandler)} className="space-y-4">
           <fieldset className="fieldset space-y-3">
+
             {/* Name */}
             <div>
               <label className="label font-semibold">Your Name</label>
@@ -83,7 +139,7 @@ const Register = () => {
                   {errors.password?.type === "minLength" &&
                     "Minimum 6 characters required."}
                   {errors.password?.type === "pattern" &&
-                    "Password must contain only letters."}
+                    "Password must have Uppercase Lowercase & One Special Character and Number letters."}
                 </p>
               )}
               <span className="absolute top-8 right-3 cursor-pointer text-gray-600">
@@ -101,15 +157,24 @@ const Register = () => {
             {/* Divider */}
             <div className="divider text-gray-400">OR</div>
 
-            {/* Google Sign In Button */}
+            {/* Google Sign In */}
             <button
+              onClick={googleSignInHandler}
               type="button"
-              className="btn bg-[#CAEB66] w-full flex items-center justify-center gap-2"
+              className="btn bg-[#dee1e7] w-full flex items-center justify-center gap-2"
             >
               <FcGoogle className="text-2xl" />
               Continue with Google
             </button>
           </fieldset>
+
+          <p className="text-sm">
+            Already have an Account?{" "}
+            <Link to="/login" className="text-blue-500">
+              login
+            </Link>{" "}
+            here.
+          </p>
         </form>
       </div>
     </div>

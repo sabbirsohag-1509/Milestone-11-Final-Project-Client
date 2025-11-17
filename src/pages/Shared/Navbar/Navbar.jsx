@@ -1,8 +1,35 @@
 import React from "react";
 import Logo from "../../../components/Logo/Logo";
-import { NavLink } from "react-router";
+import { NavLink, Link } from "react-router";
+import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
+  const { user, logOutInfo } = useAuth();
+
+  const logOutHandler = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out from zapShift!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#CAEB66",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, log me out",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOutInfo();
+        Swal.fire({
+          icon: "success",
+          title: "Logged out!",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+      }
+    });
+  };
+
   const linkStyle = ({ isActive }) =>
     isActive
       ? "px-4 py-2 rounded-full bg-[#CAEB66] text-black font-semibold shadow-sm"
@@ -65,16 +92,63 @@ const Navbar = () => {
 
       {/* Center Menu */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-2">
-          {links}
-        </ul>
+        <ul className="menu menu-horizontal px-1 gap-2">{links}</ul>
       </div>
 
-      {/* Right Side Button (Optional) */}
+      {/* Right Side */}
       <div className="navbar-end">
-        <button className="px-6 py-2 rounded-full bg-[#CAEB66] text-black font-semibold shadow">
-          Get Started
-        </button>
+        {/* If user is logged in */}
+        {user ? (
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img
+                  alt="User"
+                  src={user?.photoURL || "https://i.ibb.co/mb9zwfL/user.png"}
+                />
+              </div>
+            </div>
+
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li className="font-semibold px-2 pt-1">
+                {user?.displayName || "User"}
+              </li>
+              <li className="text-sm px-2 pb-2">{user?.email}</li>
+
+              <li>
+                <button
+                  onClick={logOutHandler}
+                  className="text-red-600 font-semibold bg-[#CAEB66] "
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          // If user is NOT logged in
+          <div className="flex gap-3">
+            <Link
+              to="/login"
+              className="btn px-6 py-2 rounded-xl bg-[#dee1e7] text-black font-semibold shadow"
+            >
+              Login
+            </Link>
+            <Link
+              to=""
+              className="btn px-6 py-2 rounded-xl bg-[#CAEB66] text-black font-semibold shadow"
+            >
+              Be a Rider
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

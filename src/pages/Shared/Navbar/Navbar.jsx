@@ -53,6 +53,11 @@ const Navbar = () => {
           About Us
         </NavLink>
       </li>
+      <li>
+        <NavLink to="/send-parcel" className={linkStyle}>
+          Send Parcel
+        </NavLink>
+      </li>
     </>
   );
 

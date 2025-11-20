@@ -53,6 +53,8 @@ const SendAParcel = () => {
         cost = minCharge + extraCharge;
       }
     }
+    console.log('cost', cost);
+    data.cost = cost;
 
     Swal.fire({
       title: "Booking Confirmed!",

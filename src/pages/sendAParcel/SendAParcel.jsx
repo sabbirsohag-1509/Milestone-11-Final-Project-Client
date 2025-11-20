@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from './../../hooks/useAuth';
 
 const SendAParcel = () => {
   const [serviceCenter, setServiceCenter] = useState([]);
   const { register, handleSubmit, control } = useForm();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     fetch(`serviceCenter.json`)
@@ -25,6 +28,8 @@ const SendAParcel = () => {
     const districts = regionDistricts.map((d) => d.district);
     return districts;
   };
+//axios from hook
+  const axiosSecure = useAxiosSecure();
 
   const parcelSubmitHandler = (data) => {
     console.log(data);
@@ -75,11 +80,12 @@ const SendAParcel = () => {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        //
+        //save the parcel info to the database
+        axiosSecure.post(`/parcels`, data)
+          .then(res => {
+            console.log('after saving parcel in database', res.data);
+        })
         
-
-
-
 
 
         // Swal.fire({
@@ -95,6 +101,13 @@ const SendAParcel = () => {
       }
     });
   };
+
+  if (loading) {
+    return <div> 
+      <span className="loading loading-infinity loading-xl"></span>
+    </div>
+  }
+ 
 
   return (
     <div className="mt-14">
@@ -159,7 +172,7 @@ const SendAParcel = () => {
               type="text"
               {...register("senderName", { required: true })}
               className="input w-full"
-              placeholder="Sender Name"
+              defaultValue={user?.displayName}
             />
             {/* sender email  */}
             <label className="label font-bold text-sm">Sender Email</label>
@@ -167,7 +180,7 @@ const SendAParcel = () => {
               type="email"
               {...register("senderEmail", { required: true })}
               className="input w-full"
-              placeholder="Sender Email"
+              defaultValue={user?.email}
             />
             {/* sender address  */}
             <label className="label font-bold text-sm mt-4">

@@ -15,7 +15,7 @@ const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const registerInfo = (email, password) => {
     setLoading(true);
@@ -44,10 +44,14 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       setLoading(false);
     });
-    return () => {
-      unsubscribe();
-    };
+    return unsubscribe;
   }, []);
+
+  if (loading) {
+    return (<div> 
+      <span className="loading loading-infinity loading-xl"></span>
+    </div>)
+  }
 
   const authInfo = {
     user,

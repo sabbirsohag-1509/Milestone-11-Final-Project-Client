@@ -10,6 +10,8 @@ import Register from "../pages/Auth/Register/Register";
 import PrivateRoute from "../context/PrivateRoute/PrivateRoute";
 import Rider from "../pages/BeARider/Rider";
 import SendAParcel from "../pages/sendAParcel/SendAParcel";
+import DashBoardLayout from "../layout/DashBoardLayout";
+import MyParcels from "../pages/Dashboard/MyParcels/MyParcels";
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +28,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/rider",
-        element: <PrivateRoute><Rider></Rider></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <Rider></Rider>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/aboutUs",
@@ -34,14 +40,18 @@ export const router = createBrowserRouter([
       },
       {
         path: "/send-parcel",
-        element: <PrivateRoute><SendAParcel></SendAParcel></PrivateRoute>
-      }
+        element: (
+          <PrivateRoute>
+            <SendAParcel></SendAParcel>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {
     path: "/",
     Component: AuthLayout,
-    children: [ 
+    children: [
       {
         path: "/login",
         Component: LogIn,
@@ -49,11 +59,25 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         Component: Register,
-      }
-    ]
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashBoardLayout></DashBoardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "my-parcels",
+        Component: MyParcels,
+      },
+    ],
   },
   {
     path: "*",
     Component: Error,
-  }
+  },
 ]);

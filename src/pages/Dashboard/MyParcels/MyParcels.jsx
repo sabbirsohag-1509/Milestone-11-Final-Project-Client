@@ -6,6 +6,7 @@ import { MdPageview } from "react-icons/md";
 import { FaUserEdit } from "react-icons/fa";
 import { IoTrashSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
+import { Link } from "react-router";
 
 const MyParcels = () => {
   const { user } = useAuth();
@@ -77,6 +78,7 @@ const MyParcels = () => {
               <th>Receiver</th>
               <th>From</th>
               <th>To</th>
+              <th>Payment</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -100,6 +102,13 @@ const MyParcels = () => {
                 {/* To */}
                 <td>
                   {parcel.receiverDistrict}, {parcel.receiverRegion}
+                </td>
+                {/* Payment */}
+                <td> 
+                  {
+                    parcel.paymentStatus === 'Paid' ?<span className="badge badge-success">Paid</span> :
+                    <Link to={`/dashboard/payment/${parcel._id}`} className="badge badge-warning">Pay</Link>
+                  }
                 </td>
 
                 {/* Status */}

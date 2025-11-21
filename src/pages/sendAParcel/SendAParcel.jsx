@@ -3,11 +3,13 @@ import { useForm, useWatch } from "react-hook-form";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from './../../hooks/useAuth';
+import { useNavigate } from "react-router";
 
 const SendAParcel = () => {
   const [serviceCenter, setServiceCenter] = useState([]);
-  const { register, handleSubmit, control } = useForm();
+  const { register, handleSubmit, control, formState:{errors} } = useForm();
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`serviceCenter.json`)
@@ -85,7 +87,17 @@ const SendAParcel = () => {
         //save the parcel info to the database
         axiosSecure.post(`/parcels`, data)
           .then(res => {
-            console.log('after saving parcel in database', res.data);
+            // console.log('after saving parcel in database', res.data);
+            if (res.data.insertedId) {
+              navigate('/dashboard/my-parcels');
+              Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "Your parcel booking is successfully saved. Please proceed to payment.",
+                showConfirmButton: false,
+                timer: 2500,
+              })
+            }
         })
         
 
@@ -152,6 +164,9 @@ const SendAParcel = () => {
               className="input w-full"
               placeholder="Parcel Name"
             />
+            {
+              errors.parcelName && <span className="text-red-600">This field is required</span>
+            }
           </fieldset>
           <fieldset className="fieldset">
             <label className="label font-bold">Parcel Weight (KG)</label>

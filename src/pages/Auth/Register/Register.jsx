@@ -6,12 +6,14 @@ import useAuth from "../../../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import axios from "axios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { registerInfo, signInGoogle, updateUserProfileInfo } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -19,8 +21,6 @@ const Register = () => {
   } = useForm();
 
   const registerBtnHandler = async (data) => {
-    // console.log("FILE:", data.photoURL);
-    // console.log("FIRST FILE:", data.photoURL && data.photoURL[0]);
     try {
        await registerInfo(data.email, data.password);
       
@@ -33,8 +33,21 @@ const Register = () => {
       }`;
 
       const imgRes = await axios.post(image_API_URL, formData);
-      console.log("iamge res", imgRes);
       const uploadedImageURL = imgRes.data.data.display_url;
+
+      //create user profile in the database
+      const userInfo = {
+        email: data.email,
+        displayName: data.name,
+        photoURL: uploadedImageURL,
+        
+      }
+      axiosSecure.post('/users', userInfo)
+        .then(res => {
+          if(res.data.insertedId){
+            console.log('User profile created in DB:', res.data);
+          }
+      })
 
       updateUserProfileInfo({
         displayName: data.name,

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
+import Logo from "../components/Logo/Logo";
 
 const DashBoardLayout = () => {
   return (
@@ -29,7 +30,14 @@ const DashBoardLayout = () => {
               <path d="M14 10l2 2l-2 2"></path>
             </svg>
           </label>
-          <div className="px-4">zapShift Dashboard</div>
+          <div className="flex justify-between w-full items-center gap-4">
+            <div className="px-4">
+              <Logo></Logo>
+            </div>
+            <div>
+              <h1 className="font-bold text-2xl text-secondary">Dashboard:</h1>
+            </div>
+          </div>
         </nav>
         {/* Page content here */}
         <Outlet></Outlet>

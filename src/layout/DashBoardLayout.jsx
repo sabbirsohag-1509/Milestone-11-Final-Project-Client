@@ -161,6 +161,35 @@ const DashBoardLayout = () => {
                 </span>
               </NavLink>
             </li>
+            {/* Approve Rider  */}
+            <li> 
+              <NavLink to="/dashboard/approve-riders">
+                <span
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Approve Riders"
+                >
+                  {/* Approve Rider icon */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    strokeWidth="2"
+                    fill="none"
+                    stroke="currentColor"
+                    className="my-1.5 inline-block size-4"
+                  >
+                    <path d="M12 20h9"></path>
+                    <path d="M12 4h9"></path> 
+                    <path d="M4 12h16"></path>
+                    <path d="M3 3l18 18"></path>
+                  </svg>
+                  <span className="is-drawer-close:hidden ml-2">
+                    Approve Riders
+                  </span>
+                </span>
+              </NavLink>
+            </li>
 
             {/* List item */}
             <li>

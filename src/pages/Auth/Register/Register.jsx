@@ -22,8 +22,7 @@ const Register = () => {
 
   const registerBtnHandler = async (data) => {
     try {
-       await registerInfo(data.email, data.password);
-      
+      await registerInfo(data.email, data.password);
 
       const formData = new FormData();
       formData.append("image", data.photoURL[0]);
@@ -40,14 +39,12 @@ const Register = () => {
         email: data.email,
         displayName: data.name,
         photoURL: uploadedImageURL,
-        
-      }
-      axiosSecure.post('/users', userInfo)
-        .then(res => {
-          if(res.data.insertedId){
-            console.log('User profile created in DB:', res.data);
-          }
-      })
+      };
+      axiosSecure.post("/users", userInfo).then((res) => {
+        if (res.data.insertedId) {
+          console.log("User profile created in DB:", res.data);
+        }
+      });
 
       updateUserProfileInfo({
         displayName: data.name,
@@ -81,14 +78,25 @@ const Register = () => {
   const googleSignInHandler = () => {
     signInGoogle()
       .then((res) => {
-        navigate(location.state || "/");
+        console.log(res.user);
+        //create user profile in the database
+        const userInfo = {
+          email: res.user.email,
+          displayName: res.user.name,
+          photoURL: res.user.uploadedImageURL,
+        };
+        axiosSecure.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            console.log("User profile created in DB:", res.data);
+          }
+          navigate(location.state || "/");
+        });
         Swal.fire({
           icon: "success",
           title: "Google Sign-In Successful!",
           timer: 1500,
           showConfirmButton: false,
         });
-        console.log(res);
       })
       .catch((error) => {
         Swal.fire({

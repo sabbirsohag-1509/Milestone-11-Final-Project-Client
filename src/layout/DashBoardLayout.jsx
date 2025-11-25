@@ -190,6 +190,34 @@ const DashBoardLayout = () => {
                 </span>
               </NavLink>
             </li>
+            <li> 
+              <NavLink to="/dashboard/users-management">
+                <span
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Users Management"
+                >
+                  {/* Users Management icon */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    strokeWidth="2"
+                    fill="none"
+                    stroke="currentColor"
+                    className="my-1.5 inline-block size-4"
+                  >
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                  <span className="is-drawer-close:hidden ml-2">
+                    Users Management
+                  </span>
+                </span>
+              </NavLink>
+            </li>
 
             {/* List item */}
             <li>

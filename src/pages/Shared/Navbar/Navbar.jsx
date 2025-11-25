@@ -66,7 +66,7 @@ const Navbar = () => {
       {user && (
         <li>
           <NavLink to="/dashboard/my-parcels" className={linkStyle}>
-            Dashboard My Parcels
+            Dashboard
           </NavLink>
         </li>
       )}

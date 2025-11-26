@@ -22,8 +22,9 @@ const ApprovalRiders = () => {
       status: status,
       email: rider.email,
     };
-    axiosSecure.patch(`/riders/${rider._id}`, updatedInfo).then((res) => {
-      if (res.data.modifiedCount) {
+    axiosSecure.patch(`/riders/${rider._id}`, updatedInfo)
+      .then((res) => {
+      if (res?.data?.modifiedCount || res?.data?.result?.modifiedCount) {
         Swal.fire({
           position: "top-center",
           icon: "success",
@@ -93,7 +94,8 @@ const ApprovalRiders = () => {
               <th>Email</th>
               <th>NID No.</th>
               <th>District</th>
-              <th>Status</th>
+              <th>Application Status</th>
+              <th>Work Status</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -118,8 +120,13 @@ const ApprovalRiders = () => {
                   </span>
                 </td>
 
+                {/* Work Status  */}
+                <td> 
+                  {rider.workStatus}
+                </td>
+
                 {/* ACTION BUTTONS */}
-                <td className="space-x-2">
+                <td className=" flex gap-2 items-center">
                   <button
                     onClick={() => handleApproveBtn(rider)}
                     className={`btn btn-success btn-sm ${
@@ -136,7 +143,7 @@ const ApprovalRiders = () => {
                   </button>
                   <button
                     onClick={() => deleteRiderBtn(rider._id)}
-                    className="btn btn-secondary btn-sm"
+                    className="btn btn-secondary btn-sm "
                   >
                     Delete
                   </button>

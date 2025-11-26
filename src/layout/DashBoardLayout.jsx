@@ -1,8 +1,10 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import Logo from "../components/Logo/Logo";
+import useRole from "../hooks/useRole";
 
 const DashBoardLayout = () => {
+  const { role } = useRole();
   return (
     <div className=" max-w-6xl mx-auto drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -162,62 +164,95 @@ const DashBoardLayout = () => {
               </NavLink>
             </li>
             {/* Approve Rider  */}
-            <li> 
-              <NavLink to="/dashboard/approve-riders">
-                <span
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Approve Riders"
-                >
-                  {/* Approve Rider icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    fill="none"
-                    stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
-                  >
-                    <path d="M12 20h9"></path>
-                    <path d="M12 4h9"></path> 
-                    <path d="M4 12h16"></path>
-                    <path d="M3 3l18 18"></path>
-                  </svg>
-                  <span className="is-drawer-close:hidden ml-2">
-                    Approve Riders
-                  </span>
-                </span>
-              </NavLink>
-            </li>
-            <li> 
-              <NavLink to="/dashboard/users-management">
-                <span
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Users Management"
-                >
-                  {/* Users Management icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    fill="none"
-                    stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
-                  >
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                  </svg>
-                  <span className="is-drawer-close:hidden ml-2">
-                    Users Management
-                  </span>
-                </span>
-              </NavLink>
-            </li>
+            {role === "Admin" && (
+              <>
+                <li>
+                  <NavLink to="/dashboard/approve-riders">
+                    <span
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Approve Riders"
+                    >
+                      {/* Approve Rider icon */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        strokeWidth="2"
+                        fill="none"
+                        stroke="currentColor"
+                        className="my-1.5 inline-block size-4"
+                      >
+                        <path d="M12 20h9"></path>
+                        <path d="M12 4h9"></path>
+                        <path d="M4 12h16"></path>
+                        <path d="M3 3l18 18"></path>
+                      </svg>
+                      <span className="is-drawer-close:hidden ml-2">
+                        Approve Riders
+                      </span>
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/assign-riders">
+                    <span
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Assign Riders"
+                    >
+                      {/* Assign Riders icon */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        strokeWidth="2"
+                        fill="none"
+                        stroke="currentColor"
+                        className="my-1.5 inline-block size-4"
+                      >
+                        <circle cx="6.5" cy="7" r="3" />
+                        <path d="M3 18c0-3 2-6 6-6s6 3 6 6" />
+                        <path d="M14 12h6" />
+                        <path d="M18 10l2 2-2 2" />
+                      </svg>
+
+                      <span className="is-drawer-close:hidden ml-2">
+                        Assign Riders
+                      </span>
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/users-management">
+                    <span
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Users Management"
+                    >
+                      {/* Users Management icon */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        strokeWidth="2"
+                        fill="none"
+                        stroke="currentColor"
+                        className="my-1.5 inline-block size-4"
+                      >
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                      </svg>
+                      <span className="is-drawer-close:hidden ml-2">
+                        Users Management
+                      </span>
+                    </span>
+                  </NavLink>
+                </li>
+              </>
+            )}
 
             {/* List item */}
             <li>

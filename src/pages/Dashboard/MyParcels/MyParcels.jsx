@@ -112,8 +112,10 @@ const MyParcels = () => {
                 </td>
 
                 {/* Status */}
-                <td>
-                  <span className="badge badge-info">Pending</span>
+                <td className="bg-yellow-100 text-yellow-800 font-medium px-2.5 py-0.5 rounded-lg">
+                  {
+                    parcel.deliveryStatus
+                  }
                 </td>
                 {/* view details, edit, delete */}
                 <td className="flex">

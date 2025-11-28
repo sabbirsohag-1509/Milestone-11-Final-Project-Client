@@ -23,6 +23,7 @@ import AssignRiders from "../pages/Dashboard/AssignRIders/AssignRiders";
 import RiderRoute from "../context/PrivateRoute/RiderRoute";
 import MyDeliveries from "../pages/Dashboard/MyDeliveries/MyDeliveries";
 import ParcelTrack from "../pages/Home/ParcelTrack/ParcelTrack";
+import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -86,6 +87,10 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
+        index: true,
+        element: <DashboardHome></DashboardHome>,
+      },
+      {
         path: "my-parcels",
         Component: MyParcels,
       },
@@ -108,21 +113,37 @@ export const router = createBrowserRouter([
       //Rider Only Routes
       {
         path: "/dashboard/my-deliveries",
-        element: <RiderRoute><MyDeliveries></MyDeliveries></RiderRoute>
+        element: (
+          <RiderRoute>
+            <MyDeliveries></MyDeliveries>
+          </RiderRoute>
+        ),
       },
 
       // Admin Only Routes
       {
         path: "/dashboard/approve-riders",
-        element: <AdminRoute><ApprovalRiders></ApprovalRiders></AdminRoute>,
+        element: (
+          <AdminRoute>
+            <ApprovalRiders></ApprovalRiders>
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/assign-riders",
-        element: <AdminRoute><AssignRiders></AssignRiders></AdminRoute>,
+        element: (
+          <AdminRoute>
+            <AssignRiders></AssignRiders>
+          </AdminRoute>
+        ),
       },
       {
         path: "users-management",
-        element: <AdminRoute><UsersManagement></UsersManagement></AdminRoute>
+        element: (
+          <AdminRoute>
+            <UsersManagement></UsersManagement>
+          </AdminRoute>
+        ),
       },
     ],
   },

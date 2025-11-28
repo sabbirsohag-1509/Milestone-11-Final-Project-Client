@@ -11,7 +11,7 @@ const Coverage = () => {
     fetch(`serviceCenter.json`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setServiceCenters(data);
       });
   }, []);

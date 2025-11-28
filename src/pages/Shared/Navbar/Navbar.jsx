@@ -45,17 +45,12 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink to="/coverage" className={linkStyle}>
-          Coverage
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/aboutUs" className={linkStyle}>
-          About Us
+          Coverage Areas
         </NavLink>
       </li>
       <li>
         <NavLink to="/send-parcel" className={linkStyle}>
-          Send Parcel
+          Send a Parcel
         </NavLink>
       </li>
       <li>
@@ -65,11 +60,17 @@ const Navbar = () => {
       </li>
       {user && (
         <li>
-          <NavLink to="/dashboard/my-parcels" className={linkStyle}>
+          <NavLink to="/dashboard" className={linkStyle}>
             Dashboard
           </NavLink>
         </li>
       )}
+
+      <li>
+        <NavLink to="/aboutUs" className={linkStyle}>
+          About Us
+        </NavLink>
+      </li>
     </>
   );
 

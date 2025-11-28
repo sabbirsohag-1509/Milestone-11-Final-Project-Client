@@ -2,6 +2,7 @@ import React from 'react';
 import useAuth from './../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { Link } from 'react-router';
 
 const PaymentHistory = () => {
     const { user } = useAuth();
@@ -55,7 +56,9 @@ const PaymentHistory = () => {
 
                                 {/* Tracking Number */}
                                 <td className="py-3 px-4 font-medium text-blue-600">
-                                    {item.trackingId}
+                                    <Link to={`/parcel-track/${item.trackingId}`} className="hover:underline">
+                                         {item.trackingId}
+                                    </Link>
                                 </td>
 
                                 {/* Payment Info */}

@@ -163,6 +163,38 @@ const DashBoardLayout = () => {
                 </span>
               </NavLink>
             </li>
+            {/* Rider specific links  */}
+            {
+              role === "Rider" && (
+                <li>
+                  <NavLink to="/dashboard/my-deliveries"> 
+                    <span
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="My Deliveries"    
+                    >
+                      {/* My Deliveries icon */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        strokeWidth="2"
+                        fill="none"
+                        stroke="currentColor"
+                        className="my-1.5 inline-block size-4"
+                      >
+                        <path d="M3 7h6v4H3z"></path> 
+                        <path d="M9 7l3-4h9a1 1 0 0 1 1 1v11a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5v-1H9v-4H3V7z"></path>
+                        <path d="M16 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM5 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path>
+                      </svg>
+                      <span className="is-drawer-close:hidden ml-2">
+                        My Deliveries
+                      </span>
+                    </span>
+                  </NavLink>
+                </li>
+              )
+            }
             {/* Approve Rider  */}
             {role === "Admin" && (
               <>

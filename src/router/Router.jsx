@@ -20,6 +20,9 @@ import ApprovalRiders from "../pages/Dashboard/ApprovalRiders/ApprovalRiders";
 import UsersManagement from "../pages/Dashboard/UsersManagement/UsersManagement";
 import AdminRoute from "../context/PrivateRoute/AdminRoute";
 import AssignRiders from "../pages/Dashboard/AssignRIders/AssignRiders";
+import RiderRoute from "../context/PrivateRoute/RiderRoute";
+import MyDeliveries from "../pages/Dashboard/MyDeliveries/MyDeliveries";
+import ParcelTrack from "../pages/Home/ParcelTrack/ParcelTrack";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +36,10 @@ export const router = createBrowserRouter([
       {
         path: "/coverage",
         Component: Coverage,
+      },
+      {
+        path: "/parcel-track/:trackingId",
+        Component: ParcelTrack,
       },
       {
         path: "/rider",
@@ -98,6 +105,13 @@ export const router = createBrowserRouter([
         path: "/dashboard/payment-history",
         Component: PaymentHistory,
       },
+      //Rider Only Routes
+      {
+        path: "/dashboard/my-deliveries",
+        element: <RiderRoute><MyDeliveries></MyDeliveries></RiderRoute>
+      },
+
+      // Admin Only Routes
       {
         path: "/dashboard/approve-riders",
         element: <AdminRoute><ApprovalRiders></ApprovalRiders></AdminRoute>,
